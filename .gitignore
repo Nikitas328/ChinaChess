@@ -1,0 +1,58 @@
+
+# IDE
+
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+
+# Gradle
+
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+
+# Kotlin & Compiled files
+
+.kotlin
+*.class
+*.jar
+*.war
+*.ear
+
+
+# Android (На будущее)
+
+local.properties
+
+
+# OS specific
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# Другие редакторы (Eclipse, NetBeans, VS Code)
+
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+.vscode/
