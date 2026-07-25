@@ -37,6 +37,7 @@ class Chariot  (color: Color): Piece(color){
             Position(-1, 0),
             Position(0, 1),
         )
+
         return validMoves.toList()
     }
 }
