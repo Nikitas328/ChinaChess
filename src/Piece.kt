@@ -52,7 +52,6 @@ class Chariot  (color: Color): Piece(color){
                         validMoves.add(step)
                     }
                     break
-
                 }
 
             }
