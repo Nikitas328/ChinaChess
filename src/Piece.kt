@@ -44,11 +44,11 @@ class Chariot  (color: Color): Piece(color){
             while (true){
                 step = Position(step.x + direction.x, step.y + direction.y)
                 if(!step.isValidToBoard()){break}
-                val targetPiese = board.cells[step]
-                if(targetPiese == null){
+                val targetPiece = board.getPiece(step)
+                if(targetPiece == null){
                     validMoves.add(step)
                 } else {
-                    if(targetPiese.color != this.color){
+                    if(targetPiece.color != this.color){
                         validMoves.add(step)
                     }
                     break

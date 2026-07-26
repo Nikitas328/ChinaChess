@@ -52,7 +52,7 @@ data class Position(val x: Int, val y: Int) {
     }
 }
 class Board {
-    val cells = mutableMapOf<Position, Piece>()
+    private val cells = mutableMapOf<Position, Piece>()
 
     fun getAvailableMoves(clickedPosition: Position): List<Position> {
         val targetPiece = cells[clickedPosition]?: return emptyList()
@@ -96,4 +96,5 @@ class Board {
         cells[Position.BLACK_SOLDIER_5] = Soldier(Color.BLACK)
     }
 
+    fun getPiece(position: Position): Piece? = cells[position]
 }
