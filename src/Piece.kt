@@ -1,4 +1,5 @@
 enum class Color { RED, BLACK }
+
 sealed class Piece(val color: Color) {
     abstract fun getPseudoLegalMoves(from: Position, board: Board): List<Position>
 }
@@ -37,7 +38,25 @@ class Chariot  (color: Color): Piece(color){
             Position(-1, 0),
             Position(0, 1),
         )
+        for (direction in directions){
+            var step = Position(from.x, from.y)
 
+            while (true){
+                step = Position(step.x + direction.x, step.y + direction.y)
+                if(!step.isValidToBoard()){break}
+                val targetPiese = board.cells[step]
+                if(targetPiese == null){
+                    validMoves.add(step)
+                } else {
+                    if(targetPiese.color != this.color){
+                        validMoves.add(step)
+                    }
+                    break
+
+                }
+
+            }
+        }
         return validMoves.toList()
     }
 }

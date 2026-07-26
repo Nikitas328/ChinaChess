@@ -46,10 +46,18 @@ data class Position(val x: Int, val y: Int) {
         val BLACK_SOLDIER_4 = Position(6, 6)
         val BLACK_SOLDIER_5 = Position(8, 6)
     }
+
+    fun isValidToBoard(): Boolean {
+        return x in 0..8 && y in 0..9
+    }
 }
 class Board {
     val cells = mutableMapOf<Position, Piece>()
 
+    fun getAvailableMoves(clickedPosition: Position): List<Position> {
+        val targetPiece = cells[clickedPosition]?: return emptyList()
+        return targetPiece.getPseudoLegalMoves(clickedPosition, this )
+    }
     fun setupInitialPosition(){
         cells[Position.RED_GENERAL_START] = General(Color.RED)
         cells[Position.RED_ADVISOR_LEFT] = Advisor(Color.RED)
