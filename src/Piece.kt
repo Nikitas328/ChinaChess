@@ -69,7 +69,7 @@ class Horse  (color: Color): Piece(color){
             if(!step.isValidToBoard()){continue}
 
             val eyePosition: Position = when{
-                Math.abs(direction.x) == 0 -> Position(from.x + direction.x/2, from.y)
+                Math.abs(direction.x) == 2 -> Position(from.x + direction.x/2, from.y)
                 else -> Position(from.x, from.y + direction.y/2)
             }
 
