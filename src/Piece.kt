@@ -20,6 +20,31 @@ class Advisor  (color: Color): Piece(color){
 class Elephant  (color: Color): Piece(color){
     override fun getPseudoLegalMoves(from: Position, board: Board): List<Position> {
         val validMoves = mutableListOf<Position>()
+        val directions = listOf(
+            Position(2, 2),
+            Position(-2, 2),
+            Position(2, -2),
+            Position(-2, -2),
+        )
+        for (direction in directions){
+            val step = Position(from.x + direction.x, from.y + direction.y)
+            if(!step.isValidToBoard()){continue}
+            if(color == Color.RED && step.y > 4){continue}
+            if(color == Color.BLACK && step.y < 5){continue}
+
+            val eyePosition = Position(from.x + direction.x/2, from.y + direction.y/2)
+            if(board.getPiece(eyePosition) != null){continue}
+
+            val targetPiece = board.getPiece(step)
+            if(targetPiece == null){
+                validMoves.add(step)
+            } else {
+                if(targetPiece.color != this.color){
+                    validMoves.add(step)
+                }
+            }
+
+        }
         return validMoves.toList()
     }
 }
