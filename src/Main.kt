@@ -1,7 +1,7 @@
 fun main(){
     val board = Board()
     board.setupInitialPosition()
-    val clickedPosition = Position.BLACK_CHARIOT_RIGHT
+    val clickedPosition = Position.RED_ELEPHANT_LEFT
     val availableMoves = board.getAvailableMoves(clickedPosition)
 
 
