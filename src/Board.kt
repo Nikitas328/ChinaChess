@@ -1,3 +1,6 @@
+import General.Companion.getPalaceXRange
+import kotlin.math.abs
+
 data class Position(val x: Int, val y: Int) {
     companion object {
         // Задняя линия (y = 0)
@@ -54,10 +57,75 @@ data class Position(val x: Int, val y: Int) {
 class Board {
     private val cells = mutableMapOf<Position, Piece>()
 
+    fun getLegalMoves(clickedPosition: Position): List<Position> {
+        val legalMoves = mutableListOf<Position>()
+        val availablelMoves = getAvailableMoves(clickedPosition)
+        val piece = cells[clickedPosition]?: return legalMoves
+        cells.remove(clickedPosition)
+        for (move in availablelMoves) {
+            val capturedPiece = cells[move]
+            cells[move] = piece
+            if (!eyeGeneral() && isGeneralofCheck(piece.color).isEmpty()){
+                legalMoves.add(move)
+            }
+            cells.remove(move)
+            if (capturedPiece != null) {
+                cells[move] = capturedPiece
+            }
+        }
+        cells[clickedPosition] = piece
+
+        return legalMoves
+    }
     fun getAvailableMoves(clickedPosition: Position): List<Position> {
         val targetPiece = cells[clickedPosition]?: return emptyList()
         return targetPiece.getPseudoLegalMoves(clickedPosition, this )
     }
+
+    fun eyeGeneral(): Boolean {
+        val redGeneralPos = findGeneralPosition(Color.RED)?: return false
+        val blackGeneralPos = findGeneralPosition(Color.BLACK)?: return false
+        if(redGeneralPos.x != blackGeneralPos.x) return false
+        for (i in redGeneralPos.y+1..<blackGeneralPos.y) {
+            if (getPiece(Position(redGeneralPos.x, i)) != null) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun isGeneralofCheck(color: Color): List<Position> {
+        val generalofCheck = mutableListOf<Position>()
+        val generalPos = findGeneralPosition(color) ?: return emptyList()
+
+        for ((pos,piece) in cells) {
+            if (piece.color == color) continue
+
+            val moves = piece.getPseudoLegalMoves(pos, this)
+            if(moves.contains(generalPos)) generalofCheck.add(pos)
+
+        }
+        return generalofCheck
+    }
+
+    fun findGeneralPosition(color: Color):Position?{
+        val xRange = General.getPalaceXRange
+        val yRange = General.getPalaceYRange(color)
+        for (x in xRange ){
+            for (y in yRange ){
+
+                val pos = Position(x, y)
+                val piece = cells[pos]
+
+                if(piece is General && color == piece.color ){
+                    return pos
+
+                }
+            }
+        }
+        return null
+    }
+
     fun setupInitialPosition(){
         cells[Position.RED_GENERAL_START] = General(Color.RED)
         cells[Position.RED_ADVISOR_LEFT] = Advisor(Color.RED)

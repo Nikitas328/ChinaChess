@@ -5,6 +5,10 @@ sealed class Piece(val color: Color) {
 }
 
 class General (color: Color): Piece(color){
+    companion object{
+        val getPalaceXRange = 3..5
+        fun getPalaceYRange(color: Color) = if(color == Color.RED) 0..2 else 7..9
+    }
     override fun getPseudoLegalMoves(from: Position, board: Board): List<Position> {
         val validMoves = mutableListOf<Position>()
         val directions = listOf(
@@ -18,8 +22,8 @@ class General (color: Color): Piece(color){
             val step = Position(from.x + direction.x, from.y + direction.y)
 
             if(!step.isValidToBoard()){continue}
-            if(color == Color.RED && (step.x !in 3..5  || step.y !in 0..2)){continue}
-            if(color == Color.BLACK && (step.x !in 3..5  || step.y !in 7..9)){continue}
+            if(color == Color.RED && (step.x !in getPalaceXRange  || step.y !in getPalaceYRange(Color.RED))){continue}
+            if(color == Color.BLACK && (step.x !in getPalaceXRange  || step.y !in getPalaceYRange(Color.BLACK))){continue}
 
 
             val targetPiece = board.getPiece(step)
