@@ -56,6 +56,19 @@ data class Position(val x: Int, val y: Int) {
 class Board {
     private val cells = mutableMapOf<Position, Piece>()
 
+    fun movePiece(from: Position, to: Position) {
+        val piece = cells[from]?: return
+        cells.remove(from)
+        cells[to] = piece
+    }
+
+    fun hasAnyLegalMove(color: Color): Boolean {
+        for ((pos, cell) in cells) {
+            if (color != cell.color) continue
+            if (getLegalMoves(pos).isNotEmpty()) return true
+        }
+        return false
+    }
     fun getLegalMoves(clickedPosition: Position): List<Position> {
         val legalMoves = mutableListOf<Position>()
         val availablelMoves = getAvailableMoves(clickedPosition)
