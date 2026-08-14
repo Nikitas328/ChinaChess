@@ -1,5 +1,4 @@
-import General.Companion.getPalaceXRange
-import kotlin.math.abs
+
 
 data class Position(val x: Int, val y: Int) {
     companion object {
